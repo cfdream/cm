@@ -35,3 +35,7 @@
 *.cmd
 *.log
 *.dirstamp
+*.Plo
+*.Po
+*.at
+*.in
