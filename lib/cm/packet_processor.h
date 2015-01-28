@@ -4,7 +4,8 @@
 #include "dpif.h"
 #include "measure_data_type.h"
 #include "debug_output.h"
-
+#include "loss_rate_map.h"
+#include "sampled_map.h"
 
 const uint32_t LOSS_PACKET_DIP = 167837954; //10.1.1.2
 const uint16_t LOSS_PACKET_DPORT = 65535;   //65535
@@ -77,7 +78,7 @@ void process(struct dpif_execute *execute){
         loss_payload = *((loss_payload_t*)payload_ptr);
 
         if (plen < sizeof(loss_payload)) {
-            ERROR("error: payload size < sizeof(loss_payload_t)");
+             ERROR("error: payload size < sizeof(loss_payload_t)");
             return;
         }
         snprintf(buffer, 1000, "loss info: srcip:%u, lossRate:%f", loss_payload.srcip, loss_payload.loss_rate);

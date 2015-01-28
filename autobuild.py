@@ -388,8 +388,8 @@ def start_switch():
         print ("sudo ovs-ofctl add-flow s1 'dl_type=0x0800,nw_dst=10.0.0.%s,actions=output:%d'"%(ip[7:],n_host+n_switch))
     '''
 
-if len(sys.argv)!=2 or not sys.argv[1] in ['0','1','2','3']:
-    print 'usage: python autobuild.py k\n\tk=0:\tbuild from scratch\n\tk=1:\tbuild from modification\n\tk=2:\trestart\n\tk=3:\tstart_switch\n'
+if len(sys.argv)!=2 or not sys.argv[1] in ['0','1','2','3','4']:
+    print 'usage: python autobuild.py k\n\tk=0:\tbuild from scratch\n\tk=1:\tbuild from modification\n\tk=2:\trestart\n\tk=3:\tstart_switch\n\tk=4:\tkill_switch\n'
     exit(0)
 
 
@@ -413,6 +413,9 @@ if (flag==2):
     kill_server()
 if (flag==0 or flag==1 or flag==2):
     start_server()
+
+if (flag==4):
+    kill_server()
 
 start_switch_xuemei()
 

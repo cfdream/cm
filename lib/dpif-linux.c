@@ -54,6 +54,7 @@
 #include "unaligned.h"
 #include "util.h"
 #include "vlog.h"
+#include "ovs-thread.h"
 #include "cm/packet_processor.h"
 
 VLOG_DEFINE_THIS_MODULE(dpif_linux);

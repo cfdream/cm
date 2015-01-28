@@ -28,7 +28,7 @@ typedef struct sampled_volume_record_s {
 typedef struct loss_rate_record_s {
     flow_key_t flow_key;
     double loss_rate;
-}loss_record_t;
+}loss_rate_record_t;
 
 typedef struct loss_payload_s {
     uint32_t srcip;

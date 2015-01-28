@@ -3,7 +3,10 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <pthread.h>
+#include "ovs-thread.h"
 #include "global_setting.h"
+#include "common_lib.h"
 
 const char DEBUG_FNAME[] =  "/users/xuemei/openvswitch-2.3.0/log/debug.txt";
 const char WARNING_FNAME[] = "/users/xuemei/openvswitch-2.3.0/log/warning.txt";
@@ -13,19 +16,26 @@ void DEBUG(const char* buffer);
 void WARNING(const char* buffer);
 void ERROR(const char* buffer);
 
+pthread_mutex_t debug_file_mutex = PTHREAD_MUTEX_INITIALIZER;
+pthread_mutex_t warn_file_mutex = PTHREAD_MUTEX_INITIALIZER;
+pthread_mutex_t error_file_mutex = PTHREAD_MUTEX_INITIALIZER;
+
 void DEBUG(const char* buffer) {
     FILE * fp;
     if (!OPEN_DEBUG) {
         return;
     }
+    request_mutex(&debug_file_mutex);
     fp = fopen(DEBUG_FNAME, "a+");
     if (fp == NULL) {
         printf("open file failed");
+        release_mutex(&debug_file_mutex);
         return;
     }
     fputs(buffer, fp);
     fputc('\n', fp);
     fclose(fp);
+    release_mutex(&debug_file_mutex);
 }
 
 void WARNING(const char* buffer) {
@@ -33,14 +43,17 @@ void WARNING(const char* buffer) {
     if (!OPEN_WARNING) {
         return;
     }
+    request_mutex(&warn_file_mutex);
     fp = fopen(WARNING_FNAME, "a+");
     if (fp == NULL) {
         printf("open file failed");
+        release_mutex(&warn_file_mutex);
         return;
     }
     fputs(buffer, fp);
     fputc('\n', fp);
     fclose(fp);
+    release_mutex(&warn_file_mutex);
 }
 
 void ERROR(const char* buffer) {
@@ -48,14 +61,17 @@ void ERROR(const char* buffer) {
     if (!OPEN_ERROR) {
         return;
     }
+    request_mutex(&error_file_mutex);
     fp = fopen(ERROR_FNAME, "a+");
     if (fp == NULL) {
         printf("open file failed");
+        release_mutex(&error_file_mutex);
         return;
     }
     fputs(buffer, fp);
     fputc('\n', fp);
     fclose(fp);
+    release_mutex(&error_file_mutex);
 }
 
 #endif
