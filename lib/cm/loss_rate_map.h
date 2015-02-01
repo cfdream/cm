@@ -18,17 +18,22 @@ typedef struct loss_flows_map_s {
 
 }loss_flow_map_t;
 
-loss_flow_map_t loss_flow_map;
+typedef struct loss_buffers_s {
+    int idx;
+    loss_flow_map_t loss_flow_map[2];
+}loss_buffers_t;
+
+loss_buffers_t loss_buffers;
 
 /*function defintion*/
 //initial the mutexs in loss_flow_map
-void initial_loss_flow_map(void);
+void initial_loss_flow_map(int idx);
 //get index of lock
 int get_lock_index_loss_flow_map(flow_key_t flow_key);
 //get lock
-void get_loss_flow_map_lock(flow_key_t flow_key);
+void request_loss_flow_map_lock(flow_key_t flow_key, loss_flow_map_t* p_loss_flow_map);
 //release lock
-void release_loss_flow_map_lock(flow_key_t flow_key);
+void release_loss_flow_map_lock(flow_key_t flow_key, loss_flow_map_t* p_loss_flow_map);
 //get the loss_flow index of one flow
 int get_index_in_loss_flow_map(flow_key_t flow_key);
 //get loss rate of one flow 
@@ -37,11 +42,12 @@ double get_loss_rate(flow_key_t flow_key);
 void put_loss_rate(flow_key_t flow_key, double loss_rate);
 
 //initial the mutexs in loss_flow_map
-void initial_loss_flow_map(void) {
+void initial_loss_flow_map(int idx) {
     int i = 0;
-    memset(loss_flow_map.loss_flows, 0, sizeof(loss_flow_map.loss_flows));
+    loss_flow_map_t* p_loss_flow_map = &loss_buffers.loss_flow_map[idx];
+    memset(p_loss_flow_map->loss_flows, 0, sizeof(p_loss_flow_map->loss_flows));
     for (; i < LOSS_LOCK_SIZE; i++) {
-        pthread_mutex_init(&loss_flow_map.mutexs[i], NULL);
+        pthread_mutex_init(&p_loss_flow_map->mutexs[i], NULL);
     }
 }
 
@@ -51,14 +57,14 @@ int get_lock_index_loss_flow_map(flow_key_t flow_key) {
     return flow_key.srcip % LOSS_LOCK_SIZE;
 }
 //get lock
-void get_loss_flow_map_lock(flow_key_t flow_key) {
+void request_loss_flow_map_lock(flow_key_t flow_key, loss_flow_map_t* p_loss_flow_map) {
     int idx = get_lock_index_loss_flow_map(flow_key);
-    request_mutex(&loss_flow_map.mutexs[idx]);
+    request_mutex(&p_loss_flow_map->mutexs[idx]);
 }
 //release lock
-void release_loss_flow_map_lock(flow_key_t flow_key) {
+void release_loss_flow_map_lock(flow_key_t flow_key, loss_flow_map_t* p_loss_flow_map) {
     int idx = get_lock_index_loss_flow_map(flow_key);
-    release_mutex(&loss_flow_map.mutexs[idx]);
+    release_mutex(&p_loss_flow_map->mutexs[idx]);
 }
 //get the loss_flow index of one flow
 int get_index_in_loss_flow_map(flow_key_t flow_key) {
@@ -69,32 +75,34 @@ double get_loss_rate(flow_key_t flow_key) {
     //if no loss rate data, return loss_rate=0
     int loss_rate = 0;
     int idx;
+    loss_flow_map_t* p_loss_flow_map = &loss_buffers.loss_flow_map[loss_buffers.idx];
     //lock
-    get_loss_flow_map_lock(flow_key);
+    request_loss_flow_map_lock(flow_key, p_loss_flow_map);
     //get data
     idx = get_index_in_loss_flow_map(flow_key);
-    if (loss_flow_map.loss_flows[idx].flow_key.srcip == flow_key.srcip) {
+    if (p_loss_flow_map->loss_flows[idx].flow_key.srcip == flow_key.srcip) {
         //the flow exists 
-        loss_rate = loss_flow_map.loss_flows[idx].loss_rate;
+        loss_rate = p_loss_flow_map->loss_flows[idx].loss_rate;
     }
     //unlock
-    release_loss_flow_map_lock(flow_key);
+    release_loss_flow_map_lock(flow_key, p_loss_flow_map);
     return loss_rate;
 }
 //put loss rate
 void put_loss_rate(flow_key_t flow_key, double loss_rate) {
     int idx = 0;
+    loss_flow_map_t* p_loss_flow_map = &loss_buffers.loss_flow_map[loss_buffers.idx];
     //lock
-    get_loss_flow_map_lock(flow_key);
+    request_loss_flow_map_lock(flow_key, p_loss_flow_map);
     //put data
     idx = get_index_in_loss_flow_map(flow_key);
-    if (loss_flow_map.loss_flows[idx].flow_key.srcip
-        && loss_flow_map.loss_flows[idx].flow_key.srcip != flow_key.srcip) {
+    if (p_loss_flow_map->loss_flows[idx].flow_key.srcip
+        && p_loss_flow_map->loss_flows[idx].flow_key.srcip != flow_key.srcip) {
         WARNING("loss_flow_map confilt happens");
     }
-    loss_flow_map.loss_flows[idx].flow_key = flow_key;
-    loss_flow_map.loss_flows[idx].loss_rate = loss_rate;
+    p_loss_flow_map->loss_flows[idx].flow_key = flow_key;
+    p_loss_flow_map->loss_flows[idx].loss_rate = loss_rate;
     //unlock
-    release_loss_flow_map_lock(flow_key);
+    release_loss_flow_map_lock(flow_key, p_loss_flow_map);
 }
 #endif

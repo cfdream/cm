@@ -1,0 +1,141 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+COMMON_LIB_H	common_lib.h	2;"	d
+CONDITION_FIXED_SIZE	condition_map.h	11;"	d
+CONDITION_LOCK_SIZE	condition_map.h	12;"	d
+CONDITION_MAP_H	condition_map.h	2;"	d
+CONDITION_PACKET_DIP	packet_processor.h	/^const uint32_t CONDITION_PACKET_DIP = 167837954; \/\/10.1.1.2$/;"	v
+CONDITION_PACKET_DPORT	packet_processor.h	/^const uint16_t CONDITION_PACKET_DPORT = 65535;   \/\/65535$/;"	v
+CONTROLLER_COMMUNICATOR_H	controller_communicator.h	2;"	d
+DEBUG	debug_output.cpp	/^void DEBUG(const char* buffer) {$/;"	f
+DEBUG	debug_output.h	/^void DEBUG(const char* buffer) {$/;"	f
+DEBUG_FNAME	debug_output.cpp	/^const char DEBUG_FNAME[] =  "\/users\/xuemei\/openvswitch-2.3.0\/log\/debug.txt";$/;"	v
+DEBUG_FNAME	debug_output.h	/^const char DEBUG_FNAME[] =  "\/users\/xuemei\/openvswitch-2.3.0\/log\/debug.txt";$/;"	v
+DEBUG_OUTPUT_H	debug_output.h	2;"	d
+ERROR	debug_output.cpp	/^void ERROR(char* buffer) {$/;"	f
+ERROR	debug_output.h	/^void ERROR(const char* buffer) {$/;"	f
+ERROR_FNAME	debug_output.cpp	/^const char ERROR_FNAME[] = "\/users\/xuemei\/openvswitch-2.3.0\/log\/error.txt";$/;"	v
+ERROR_FNAME	debug_output.h	/^const char ERROR_FNAME[] = "\/users\/xuemei\/openvswitch-2.3.0\/log\/error.txt";$/;"	v
+FIXED_SIZE_HASH_MAP_H	sampled_map.h	2;"	d
+GLOBAL_DATA_H	global_data.h	2;"	d
+GLOBAL_OPERATION_H	global_operation.h	2;"	d
+GLOBAL_SETTING_H	global_setting.h	2;"	d
+MEASURE_DATA_TYPE_H	measure_data_type.h	2;"	d
+OPEN_DEBUG	global_setting.h	/^const bool OPEN_DEBUG = true;$/;"	v
+OPEN_ERROR	global_setting.h	/^const bool OPEN_ERROR = true;$/;"	v
+OPEN_LOCK	global_setting.h	/^const bool OPEN_LOCK = true;$/;"	v
+OPEN_REPLACE_MECHANISM	global_setting.h	/^const bool OPEN_REPLACE_MECHANISM = true;$/;"	v
+OPEN_WARNING	global_setting.h	/^const bool OPEN_WARNING = true;$/;"	v
+PACKET_PROCESSOR_H	packet_processor.h	2;"	d
+PORT_SIZE	measure_data_type.h	4;"	d
+SAMPLE_FIXED_SIZE	sampled_map.h	10;"	d
+SAMPLE_LOCK_SIZE	sampled_map.h	11;"	d
+SAMPLE_MODEL_H	sample_model.h	2;"	d
+TARGET_LOSS_RATE_THRESHOLD	global_setting.h	/^const double TARGET_LOSS_RATE_THRESHOLD = 0.2;      \/\/target flow loss rate threshold: 0.2$/;"	v
+TARGET_VOLUME_THRESHOLD	global_setting.h	/^const double TARGET_VOLUME_THRESHOLD = 20000;       \/\/target flow volume threshold: 20k$/;"	v
+TCP_SOCKET_CLIENT_H	tcp_socket_client.h	2;"	d
+WARNING	debug_output.cpp	/^void WARNING(char* buffer) {$/;"	f
+WARNING	debug_output.h	/^void WARNING(const char* buffer) {$/;"	f
+WARNING_FNAME	debug_output.cpp	/^const char WARNING_FNAME[] = "\/users\/xuemei\/openvswitch-2.3.0\/log\/warning.txt";$/;"	v
+WARNING_FNAME	debug_output.h	/^const char WARNING_FNAME[] = "\/users\/xuemei\/openvswitch-2.3.0\/log\/warning.txt";$/;"	v
+add_sampled_volume	sampled_map.h	/^void add_sampled_volume(flow_key_t flow_key, int32_t outport, uint64_t volume) {$/;"	f
+check_switch_buffers	global_operation.h	/^void check_switch_buffers(int ith_interval) {$/;"	f
+clear_sampled_record	sampled_map.h	/^void clear_sampled_record(sampled_record_t* p_sampled_record) {$/;"	f
+close_socket	tcp_socket_client.h	/^void close_socket(void) {$/;"	f
+communicator_mutex	global_operation.h	/^pthread_mutex_t communicator_mutex = PTHREAD_MUTEX_INITIALIZER;$/;"	v
+condition	measure_data_type.h	/^    condition_t condition;$/;"	m	struct:condition_record_s
+condition	measure_data_type.h	/^    condition_t condition;$/;"	m	struct:packet_s
+condition_buffers	condition_map.h	/^condition_buffers_t condition_buffers;$/;"	v
+condition_buffers_s	condition_map.h	/^typedef struct condition_buffers_s {$/;"	s
+condition_buffers_t	condition_map.h	/^} condition_buffers_t;$/;"	t	typeref:struct:condition_buffers_s
+condition_flow_map	condition_map.h	/^    condition_flow_map_t condition_flow_map[2];$/;"	m	struct:condition_buffers_s
+condition_flow_map_t	condition_map.h	/^}condition_flow_map_t;$/;"	t	typeref:struct:condition_flows_map_s
+condition_flows	condition_map.h	/^    condition_record_t condition_flows[CONDITION_FIXED_SIZE];$/;"	m	struct:condition_flows_map_s
+condition_flows_map_s	condition_map.h	/^typedef struct condition_flows_map_s {$/;"	s
+condition_payload_s	measure_data_type.h	/^typedef struct condition_payload_s {$/;"	s
+condition_payload_t	measure_data_type.h	/^}condition_payload_t;$/;"	t	typeref:struct:condition_payload_s
+condition_record_s	measure_data_type.h	/^typedef struct condition_record_s {$/;"	s
+condition_record_t	measure_data_type.h	/^}condition_record_t;$/;"	t	typeref:struct:condition_record_s
+condition_s	measure_data_type.h	/^typedef struct condition_s {$/;"	s
+condition_t	measure_data_type.h	/^}condition_t;$/;"	t	typeref:struct:condition_s
+connection_handler	server.c	/^void *connection_handler(void *socket_desc)$/;"	f
+debug_file_mutex	debug_output.h	/^pthread_mutex_t debug_file_mutex = PTHREAD_MUTEX_INITIALIZER;$/;"	v
+dport	measure_data_type.h	/^    uint16_t dport;$/;"	m	struct:packet_s
+dstip	measure_data_type.h	/^    uint32_t dstip;$/;"	m	struct:condition_payload_s
+dstip	measure_data_type.h	/^    uint32_t dstip;$/;"	m	struct:packet_s
+dstport	measure_data_type.h	/^    uint16_t dstport;$/;"	m	struct:condition_payload_s
+error_file_mutex	debug_output.h	/^pthread_mutex_t error_file_mutex = PTHREAD_MUTEX_INITIALIZER;$/;"	v
+flow_key	measure_data_type.h	/^    flow_key_t flow_key;$/;"	m	struct:condition_record_s
+flow_key	measure_data_type.h	/^    flow_key_t flow_key;$/;"	m	struct:sampled_volume_record_s
+flow_key_s	measure_data_type.h	/^typedef struct flow_key_s {$/;"	s
+flow_key_t	measure_data_type.h	/^}flow_key_t;$/;"	t	typeref:struct:flow_key_s
+g_current_interval	global_data.h	/^int g_current_interval = 1;           \/\/the present time interval, the starting interval is "1": should be sychonized with pcapGenerator$/;"	v
+g_sampled_buffer_condition_buffer_initialized	global_data.h	/^bool g_sampled_buffer_condition_buffer_initialized = false;$/;"	v
+get_condition	condition_map.h	/^condition_t get_condition(flow_key_t flow_key) {$/;"	f
+get_condition_from_rest_buffer	condition_map.h	/^condition_t get_condition_from_rest_buffer(flow_key_t flow_key) {$/;"	f
+get_index_in_condition_flow_map	condition_map.h	/^int get_index_in_condition_flow_map(flow_key_t flow_key) {$/;"	f
+get_lock_index_condition_flow_map	condition_map.h	/^int get_lock_index_condition_flow_map(flow_key_t flow_key) {$/;"	f
+get_lock_index_sampled_map	sampled_map.h	/^int get_lock_index_sampled_map(flow_key_t flow_key) {$/;"	f
+get_sampled_all_ports_volume	sampled_map.h	/^uint64_t get_sampled_all_ports_volume(flow_key_t flow_key) {$/;"	f
+get_sampled_flow_index	sampled_map.h	/^int get_sampled_flow_index(flow_key_t flow_key) {$/;"	f
+idx	condition_map.h	/^    int idx;$/;"	m	struct:condition_buffers_s
+idx	sampled_map.h	/^    int idx;$/;"	m	struct:sampled_buffers_s
+init_cm	global_operation.h	/^void init_cm(void) {$/;"	f
+init_socket_client	tcp_socket_client.h	/^void init_socket_client(void)$/;"	f
+initial_buffers	global_operation.h	/^void initial_buffers(void) {$/;"	f
+initial_condition_flow_map	condition_map.h	/^void initial_condition_flow_map(int idx) {$/;"	f
+initial_sampled_map	sampled_map.h	/^void initial_sampled_map(int idx) {$/;"	f
+is_pkt_sampled	global_setting.h	/^bool (*is_pkt_sampled)(flow_key_t flow_key, packet_t* p_pkt) = &is_sampled_tra;$/;"	v
+is_sampled_exp	sample_model.h	/^bool is_sampled_exp(flow_key_t flow_key, packet_t* p_pkt) {$/;"	f
+is_sampled_linear	sample_model.h	/^bool is_sampled_linear(flow_key_t flow_key, packet_t* p_pkt) {$/;"	f
+is_sampled_log	sample_model.h	/^bool is_sampled_log(flow_key_t flow_key, packet_t* p_pkt) {$/;"	f
+is_sampled_pol	sample_model.h	/^bool is_sampled_pol(flow_key_t flow_key, packet_t* p_pkt) {$/;"	f
+is_sampled_trad	sample_model.h	/^bool is_sampled_trad(flow_key_t flow_key, packet_t* p_pkt) {$/;"	f
+ith_interval	measure_data_type.h	/^    int ith_interval;   \/\/TODO genereate ith_interval at pcap_generator, and parse here$/;"	m	struct:packet_s
+len	measure_data_type.h	/^    uint16_t len;$/;"	m	struct:packet_s
+loss_rate	measure_data_type.h	/^    double loss_rate;$/;"	m	struct:condition_payload_s
+loss_rate	measure_data_type.h	/^    double loss_rate;$/;"	m	struct:condition_s
+main	debug_output.cpp	/^int main(int argc, char* argv[]) {$/;"	f
+main	server.c	/^int main(int argc , char *argv[])$/;"	f
+mutexs	condition_map.h	/^    pthread_mutex_t mutexs[CONDITION_LOCK_SIZE];$/;"	m	struct:condition_flows_map_s
+mutexs	sampled_map.h	/^    pthread_mutex_t mutexs[SAMPLE_LOCK_SIZE];$/;"	m	struct:sampled_flows_map_s
+out_port	measure_data_type.h	/^    uint16_t out_port;$/;"	m	struct:packet_s
+packet_s	measure_data_type.h	/^typedef struct packet_s {$/;"	s
+packet_t	measure_data_type.h	/^}packet_t;$/;"	t	typeref:struct:packet_s
+port_volumes	measure_data_type.h	/^    uint64_t port_volumes[PORT_SIZE];      \/\/attention: at most 5 outports for one ovs$/;"	m	struct:sampled_volume_record_s
+process	packet_processor.h	/^void process(struct dpif_execute *execute){$/;"	f
+process_condition_packet	packet_processor.h	/^void process_condition_packet(packet_t* pkt_ptr) {$/;"	f
+process_normal_packet	packet_processor.h	/^void process_normal_packet(packet_t* pkt_ptr) {$/;"	f
+put_condition	condition_map.h	/^void put_condition(flow_key_t flow_key, condition_t condition) {$/;"	f
+release_condition_flow_map_lock	condition_map.h	/^void release_condition_flow_map_lock(flow_key_t flow_key, condition_flow_map_t* p_condition_flow_map) {$/;"	f
+release_mutex	common_lib.h	/^void release_mutex(pthread_mutex_t* p_mutex) {$/;"	f
+release_sampled_map_lock	sampled_map.h	/^void release_sampled_map_lock(flow_key_t flow_key, sampled_flow_map_t* p_sampled_flow_map) {$/;"	f
+request_condition_flow_map_lock	condition_map.h	/^void request_condition_flow_map_lock(flow_key_t flow_key, condition_flow_map_t* p_condition_flow_map) {$/;"	f
+request_mutex	common_lib.h	/^void request_mutex(pthread_mutex_t* p_mutex) {$/;"	f
+request_sampled_map_lock	sampled_map.h	/^void request_sampled_map_lock(flow_key_t flow_key, sampled_flow_map_t* p_sampled_flow_map) {$/;"	f
+sampled_buffers	sampled_map.h	/^sampled_buffers_t sampled_buffers;$/;"	v
+sampled_buffers_s	sampled_map.h	/^typedef struct sampled_buffers_s {$/;"	s
+sampled_buffers_t	sampled_map.h	/^} sampled_buffers_t;$/;"	t	typeref:struct:sampled_buffers_s
+sampled_flow_map	sampled_map.h	/^    sampled_flow_map_t sampled_flow_map[2];$/;"	m	struct:sampled_buffers_s
+sampled_flow_map_t	sampled_map.h	/^}sampled_flow_map_t;$/;"	t	typeref:struct:sampled_flows_map_s
+sampled_flows	sampled_map.h	/^    sampled_record_t sampled_flows[SAMPLE_FIXED_SIZE];$/;"	m	struct:sampled_flows_map_s
+sampled_flows_map_s	sampled_map.h	/^typedef struct sampled_flows_map_s {$/;"	s
+sampled_record_t	measure_data_type.h	/^}sampled_record_t;$/;"	t	typeref:struct:sampled_volume_record_s
+sampled_volume_record_s	measure_data_type.h	/^typedef struct sampled_volume_record_s {$/;"	s
+send_target_flows_to_controller	controller_communicator.h	/^void* send_target_flows_to_controller(void* param) {$/;"	f
+server_ip	global_data.h	/^char server_ip[20] = "10.1.0.254";$/;"	v
+server_port	global_data.h	/^int server_port = 5555;$/;"	v
+sockfd	tcp_socket_client.h	/^int sockfd;$/;"	v
+sport	measure_data_type.h	/^    uint16_t sport;$/;"	m	struct:packet_s
+srcip	measure_data_type.h	/^    uint32_t srcip;$/;"	m	struct:condition_payload_s
+srcip	measure_data_type.h	/^    uint32_t srcip;$/;"	m	struct:flow_key_s
+srcip	measure_data_type.h	/^    uint32_t srcip;$/;"	m	struct:packet_s
+srcport	measure_data_type.h	/^    uint16_t srcport;$/;"	m	struct:condition_payload_s
+volume	measure_data_type.h	/^    uint64_t volume;    \/\/TODO add total volume of one flow from detect_loss$/;"	m	struct:condition_payload_s
+volume	measure_data_type.h	/^    uint64_t volume;$/;"	m	struct:condition_s
+warn_file_mutex	debug_output.h	/^pthread_mutex_t warn_file_mutex = PTHREAD_MUTEX_INITIALIZER;$/;"	v
+write_data_to_server	tcp_socket_client.h	/^void write_data_to_server(void* buffer, int len) {$/;"	f

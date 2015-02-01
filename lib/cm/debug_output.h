@@ -9,14 +9,17 @@
 #include "common_lib.h"
 
 const char DEBUG_FNAME[] =  "/users/xuemei/openvswitch-2.3.0/log/debug.txt";
+const char NOTICE_FNAME[] =  "/users/xuemei/openvswitch-2.3.0/log/notice.txt";
 const char WARNING_FNAME[] = "/users/xuemei/openvswitch-2.3.0/log/warning.txt";
 const char ERROR_FNAME[] = "/users/xuemei/openvswitch-2.3.0/log/error.txt";
 
 void DEBUG(const char* buffer);
+void NOTICE(const char* buffer);
 void WARNING(const char* buffer);
 void ERROR(const char* buffer);
 
 pthread_mutex_t debug_file_mutex = PTHREAD_MUTEX_INITIALIZER;
+pthread_mutex_t notice_file_mutex = PTHREAD_MUTEX_INITIALIZER;
 pthread_mutex_t warn_file_mutex = PTHREAD_MUTEX_INITIALIZER;
 pthread_mutex_t error_file_mutex = PTHREAD_MUTEX_INITIALIZER;
 
@@ -36,6 +39,24 @@ void DEBUG(const char* buffer) {
     fputc('\n', fp);
     fclose(fp);
     release_mutex(&debug_file_mutex);
+}
+
+void NOTICE(const char* buffer) {
+    FILE * fp;
+    if (!OPEN_NOTICE) {
+        return;
+    }
+    request_mutex(&notice_file_mutex);
+    fp = fopen(NOTICE_FNAME, "a+");
+    if (fp == NULL) {
+        printf("open file failed");
+        release_mutex(&notice_file_mutex);
+        return;
+    }
+    fputs(buffer, fp);
+    fputc('\n', fp);
+    fclose(fp);
+    release_mutex(&notice_file_mutex);
 }
 
 void WARNING(const char* buffer) {
