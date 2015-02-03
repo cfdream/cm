@@ -6,6 +6,7 @@
 bool g_sampled_buffer_condition_buffer_initialized = false;
 int g_current_interval = 1;           //the present time interval, the starting interval is "1": should be sychonized with pcapGenerator
 bool g_first_packet = true;
+bool g_first_normal_packet = true;
 int g_received_pkt_num = 0;
 
 //socket information

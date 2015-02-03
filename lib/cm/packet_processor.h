@@ -52,6 +52,7 @@ void process(struct dpif_execute *execute){
     //init for conditional measurement
     if (g_first_packet) {
         init_cm();
+        g_first_packet= false;
     }
 
     out_port=*(int*)((char*)execute->actions+4)-1;
@@ -113,8 +114,8 @@ void process(struct dpif_execute *execute){
         //DEBUG(buffer);                  //FIRST_PACKET_TO_CHECK_INTERVAL 
         //construct normal packet 
         //DONE: in normal packets, there should be a field telling the time interval id  ==> timestamp->ith_interval
-        if (g_first_packet) {
-            g_first_packet= false;
+        if (g_first_normal_packet) {
+            g_first_normal_packet= false;
         } else {
             check_switch_buffers(ith_interval);
         }
