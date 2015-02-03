@@ -8,8 +8,8 @@ typedef struct flow_key_s {
 }flow_key_t;
 
 typedef struct condition_s {
-    double loss_rate;
-    uint64_t volume;    //TODO:detectPacketLoss should also send the volume to switches
+    float loss_rate;
+    uint64_t volume;    //DONE:detectPacketLoss should also send the volume to switches
 }condition_t;
 
 typedef struct packet_s {
@@ -20,12 +20,12 @@ typedef struct packet_s {
     uint16_t out_port;
     uint16_t len;
     condition_t condition;
-    int ith_interval;   //TODO genereate ith_interval at pcap_generator, and parse here
+    int ith_interval;   //DONE: genereate ith_interval at pcap_generator, and parse here
 }packet_t;
 /*
 typedef struct info_packet_s {
     flow_key_t key;
-    double loss_rate;
+    float loss_rate;
 };
 */
 
@@ -41,11 +41,8 @@ typedef struct condition_record_s {
 
 typedef struct condition_payload_s {
     uint32_t srcip;
-    uint32_t dstip;
-    uint16_t srcport;
-    uint16_t dstport;
-    double loss_rate;
-    uint64_t volume;    //TODO add total volume of one flow from detect_loss
+    float loss_rate;
+    uint64_t volume;    //DONE: add total volume of one flow from detect_loss
 }condition_payload_t;
 
 #endif

@@ -811,6 +811,10 @@ read_upcalls(struct handler *handler,
             struct pkt_metadata md = pkt_metadata_from_flow(&flow);
 
             flow_extract(packet, &md, &miss->flow);
+            //Change start
+            //i--;
+            //continue;
+            //Change end
             hash = flow_hash(&miss->flow, 0);
             existing_miss = flow_miss_find(misses, ofproto, &miss->flow,
                                            hash);

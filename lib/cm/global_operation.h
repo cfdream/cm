@@ -15,6 +15,7 @@ void initial_buffers(void);
 void check_switch_buffers(int ith_interval);
 
 
+//TODO: add this function into main(); otherwise, call this function in packet_processor.h
 void init_cm(void) {
 
     //init sampled_buffers and condition_buffers
@@ -24,7 +25,6 @@ void init_cm(void) {
     srand(time(NULL));
 }
 
-//TODO: add this function into main(); otherwise, call this function in packet_processor.h
 //init sampled_buffers and loss_buffers
 void initial_buffers(void) {
     int i = 0;
@@ -52,7 +52,6 @@ void check_switch_buffers(int ith_interval) {
         if (ith_interval < g_current_interval) {
             ERROR("ith_interval < g_current_interval");
         }
-        g_current_interval = ith_interval;
         sampled_buffers.idx = 1 - sampled_buffers.idx;
         condition_buffers.idx = 1- condition_buffers.idx;
 

@@ -1,11 +1,12 @@
 #ifndef GLOBAL_DATA_H
 #define GLOBAL_DATA_H
 
-#include "sampled_map.h"
-#include "condition_map.h"
+#include "global_setting.h"
 
 bool g_sampled_buffer_condition_buffer_initialized = false;
 int g_current_interval = 1;           //the present time interval, the starting interval is "1": should be sychonized with pcapGenerator
+bool g_first_packet = true;
+int g_received_pkt_num = 0;
 
 //socket information
 int server_port = 8888;

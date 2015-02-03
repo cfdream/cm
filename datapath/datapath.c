@@ -256,7 +256,7 @@ void ovs_dp_process_packet_with_key(struct sk_buff *skb,
 	/* Look up flow. */
 	flow = ovs_flow_tbl_lookup_stats(&dp->table, pkt_key, skb_get_hash(skb),
 					 &n_mask_hit);
-	if (unlikely(!flow)) {
+//	if (unlikely(!flow)) {
 		struct dp_upcall_info upcall;
 
 		upcall.cmd = OVS_PACKET_CMD_MISS;
@@ -267,7 +267,7 @@ void ovs_dp_process_packet_with_key(struct sk_buff *skb,
 		consume_skb(skb);
 		stats_counter = &stats->n_missed;
 		goto out;
-	}
+//	}
 
 	OVS_CB(skb)->pkt_key = pkt_key;
 	OVS_CB(skb)->flow = flow;

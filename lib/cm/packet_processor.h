@@ -45,7 +45,15 @@ void process(struct dpif_execute *execute){
 
     //for debug
     char buffer[1000];
+
+    //the number of packets received ++
+    g_received_pkt_num++; 
     
+    //init for conditional measurement
+    if (g_first_packet) {
+        init_cm();
+    }
+
     out_port=*(int*)((char*)execute->actions+4)-1;
     //pkt_len, allocated_len
     pkt_len = execute->packet->size_;  //bytes in use
@@ -59,10 +67,11 @@ void process(struct dpif_execute *execute){
     sport = ntohs(*(uint16_t*)l4_start);
     dport = ntohs(*(uint16_t*)(l4_start+2));
     plen = ntohs(*(uint16_t*)(l4_start+4));  //payload len 
-
-    snprintf(buffer, 1000, "sip:%u dip:%u sport:%u dport:%u payload_len:%u len_in_use:%u allo_len:%u out_port:%d", 
-        srcip, dstip, sport, dport, plen, pkt_len, allocated_len, out_port);
-    DEBUG(buffer);
+    if (g_received_pkt_num % 1000 == 0) {
+        snprintf(buffer, 1000, "g_received_pkt_num:%d, sip:%u dip:%u sport:%u dport:%u payload_len:%u len_in_use:%u allo_len:%u out_port:%d", 
+            g_received_pkt_num, srcip, dstip, sport, dport, plen, pkt_len, allocated_len, out_port);
+        DEBUG(buffer);
+    }
 
     //data pointer, frame pointer
     payload_ptr = l4_start + 8;
@@ -77,7 +86,7 @@ void process(struct dpif_execute *execute){
     pkt.len = pkt_len;
 
     if (dstip == CONDITION_PACKET_DIP && dport == CONDITION_PACKET_DPORT) {
-        DEBUG("condition packet");
+        //DEBUG("condition packet");
         //construct condition rate packet
         //memcpy(&condition_payload, payload_ptr, sizeof(condition_payload));
         condition_payload = *((condition_payload_t*)payload_ptr);
@@ -86,22 +95,30 @@ void process(struct dpif_execute *execute){
              ERROR("error: payload size < sizeof(condition_payload_t)");
             return;
         }
-        snprintf(buffer, 1000, "condition info: srcip:%u, lossRate:%f, volume:%lu",
-            condition_payload.srcip, condition_payload.loss_rate, condition_payload.volume);
-        DEBUG(buffer);
+        //snprintf(buffer, 1000, "condition info: srcip:%u, lossRate:%f, volume:%lu",
+        //    condition_payload.srcip, condition_payload.loss_rate, condition_payload.volume);
+        //DEBUG(buffer);
         //set condition of the pkt
         pkt.condition.loss_rate = condition_payload.loss_rate;
         pkt.condition.volume = condition_payload.volume;
         //handle condition packet
         process_condition_packet(&pkt);
     } else {
+        //normal packet
         seqid = ntohl(*(uint32_t*)payload_ptr);
+        timestamp = ntohll(*((uint64_t*)(payload_ptr+4)));
+        ith_interval = get_interval_id(timestamp);
 
-        snprintf(buffer, 1000, "normal packet, seqid:%u", seqid);
-        DEBUG(buffer);
+        //snprintf(buffer, 1000, "normal packet, seqid:%u, timestamp:%llu, ith_interval:%d", seqid, timestamp, ith_interval);
+        //DEBUG(buffer);                  //FIRST_PACKET_TO_CHECK_INTERVAL 
         //construct normal packet 
-        //TODO: in normal packets, there should be a field telling the time interval id
-        check_switch_buffers(ith_interval);
+        //DONE: in normal packets, there should be a field telling the time interval id  ==> timestamp->ith_interval
+        if (g_first_packet) {
+            g_first_packet= false;
+        } else {
+            check_switch_buffers(ith_interval);
+        }
+        g_current_interval = ith_interval;
 
         //process the packet
         process_normal_packet(&pkt);
@@ -125,14 +142,18 @@ void process_condition_packet(packet_t* pkt_ptr) {
 }
 
 bool capture_the_packet(flow_key_t flow_key, packet_t* pkt_ptr) {
+    double pkt_sample_rate;
+    int pkt_sample_num;
+    int rand_num;
+
     if (flow_key_exist(flow_key)) {
         return true;
     }
     //packet sample rate
-    double pkt_sample_rate = get_pkt_sample_rate(flow_key, pkt_ptr);
-    int pkt_sample_num = (int)(pkt_sample_rate * RAND_MOD_NUMBER);
+    pkt_sample_rate = get_pkt_sample_rate(flow_key, pkt_ptr);
+    pkt_sample_num = (int)(pkt_sample_rate * RAND_MOD_NUMBER);
     //rand number
-    int rand_num = rand() % RAND_MOD_NUMBER + 1;
+    rand_num = rand() % RAND_MOD_NUMBER + 1;
 
     if (rand_num <= pkt_sample_num) {
         return true;
