@@ -87,7 +87,7 @@ void process(struct dpif_execute *execute){
     pkt.len = pkt_len;
 
     if (dstip == CONDITION_PACKET_DIP && dport == CONDITION_PACKET_DPORT) {
-        //DEBUG("condition packet");
+        DEBUG("condition packet");
         //construct condition rate packet
         //memcpy(&condition_payload, payload_ptr, sizeof(condition_payload));
         condition_payload = *((condition_payload_t*)payload_ptr);
@@ -106,6 +106,7 @@ void process(struct dpif_execute *execute){
         process_condition_packet(&pkt);
     } else {
         //normal packet
+        DEBUG("normal packet");
         seqid = ntohl(*(uint32_t*)payload_ptr);
         timestamp = ntohll(*((uint64_t*)(payload_ptr+4)));
         ith_interval = get_interval_id(timestamp);

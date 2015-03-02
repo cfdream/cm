@@ -23,10 +23,13 @@ void* send_target_flows_to_controller(void* param) {
     for (; i < SAMPLE_FIXED_SIZE; i++) {
         //get the sampled_record 
         sampled_record_t* p_sampled_record =  &p_sampled_flow_map->sampled_flows[i];
+        if (p_sampled_record->flow_key.srcip == 0) {
+            continue;
+        }
         flow_key_t flow_key = p_sampled_record->flow_key;
         
         //get loss rate of the flow 
-        condition = get_condition(flow_key);
+        condition = get_condition_from_rest_buffer(flow_key);
 
         //if 1. loss rate is smaller than target_loss_rate, 
         //or 2. the total sampled volume for the flow is lower than the threshold

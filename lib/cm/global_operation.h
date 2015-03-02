@@ -43,14 +43,11 @@ void initial_buffers(void) {
 //switch the sampled_buffers and loss_buffers
 void check_switch_buffers(int ith_interval) {
     pthread_t thread_id;
-    if (ith_interval ^ g_current_interval) {
+    if (ith_interval > g_current_interval) {
+        //!!!ith_interval is a new interval
         if (pthread_mutex_trylock(&communicator_mutex) != 0) {
             //there are other threads handling the work
             return;
-        }
-        //ith_interval is a new time interval
-        if (ith_interval < g_current_interval) {
-            ERROR("ith_interval < g_current_interval");
         }
         sampled_buffers.idx = 1 - sampled_buffers.idx;
         condition_buffers.idx = 1- condition_buffers.idx;
@@ -65,6 +62,8 @@ void check_switch_buffers(int ith_interval) {
         initial_sampled_map(1 - sampled_buffers.idx);
 
         pthread_mutex_unlock(&communicator_mutex);
+    } else if (ith_interval < g_current_interval) {
+        ERROR("ith_interval < g_current_interval");
     }
 }
 
