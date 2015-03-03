@@ -10,6 +10,7 @@ void* send_target_flows_to_controller(void* param);
 void* send_target_flows_to_controller(void* param) {
     int i = 0;
     condition_t condition;
+    flow_key_t flow_key;
     sampled_flow_map_t* p_sampled_flow_map = NULL;
 
     DEBUG("start send_target_flows_to_controller");
@@ -26,7 +27,7 @@ void* send_target_flows_to_controller(void* param) {
         if (p_sampled_record->flow_key.srcip == 0) {
             continue;
         }
-        flow_key_t flow_key = p_sampled_record->flow_key;
+        flow_key = p_sampled_record->flow_key;
         
         //get loss rate of the flow 
         condition = get_condition_from_rest_buffer(flow_key);

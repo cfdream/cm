@@ -3,6 +3,7 @@
 
 #include "global_setting.h"
 #include "measure_data_type.h"
+#include "packet_sampling_setting.h"
 
 
 //traditional sample and hold
@@ -24,7 +25,7 @@ bool (*get_pkt_sample_rate)(flow_key_t flow_key, packet_t* p_pkt) = &pkt_sample_
 
 //traditional sample and hold
 double pkt_sample_rate_trad(flow_key_t flow_key, packet_t* p_pkt) {
-    double rate = DEAFULT_BYTE_SAMPLE_RATE * p_pkt->len;            
+    double rate = DEFAULT_BYTE_SAMPLE_RATE * p_pkt->len;            
     return rate > 1 ? 1 : rate;
 }
 /*
