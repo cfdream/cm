@@ -40,9 +40,11 @@ void init_socket_client(void)
 
     //connect the server socket
     if (connect(sockfd,(struct sockaddr *) &serv_addr,sizeof(serv_addr)) < 0) {
-        ERROR("ERROR connecting");
+        ERROR("ERROR connecting, interval:%d,ip:%s, port:%d", g_current_interval, server_ip, server_port);
         exit(0);
     }
+
+    NOTICE("succ init_socket_client");
 }
 
 void write_data_to_server(void* buffer, int len) {
@@ -57,6 +59,7 @@ void write_data_to_server(void* buffer, int len) {
 void close_socket(void) {
     //close the socket
     close(sockfd);
+    NOTICE("succ close_socket");
 }
 
 #endif

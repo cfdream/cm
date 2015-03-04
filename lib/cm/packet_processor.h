@@ -106,13 +106,15 @@ void process(struct dpif_execute *execute){
         process_condition_packet(&pkt);
     } else {
         //normal packet
-        DEBUG("normal packet");
+        //DEBUG("normal packet");
         seqid = ntohl(*(uint32_t*)payload_ptr);
         timestamp = ntohll(*((uint64_t*)(payload_ptr+4)));
         ith_interval = get_interval_id(timestamp);
 
-        //snprintf(buffer, 1000, "normal packet, seqid:%u, timestamp:%llu, ith_interval:%d", seqid, timestamp, ith_interval);
-        //DEBUG(buffer);                  //FIRST_PACKET_TO_CHECK_INTERVAL 
+        if (g_received_pkt_num%10 == 0) {
+            snprintf(buffer, 1000, "normal packet, seqid:%u, timestamp:%llu, ith_interval:%d, time:%d ms", seqid, timestamp, ith_interval, (timestamp-FIRST_INTERVAL_START_USECOND)/(SECOND_2_USECOND/1000) );
+            DEBUG(buffer);                  //FIRST_PACKET_TO_CHECK_INTERVAL 
+        }
         //construct normal packet 
         //DONE: in normal packets, there should be a field telling the time interval id  ==> timestamp->ith_interval
         if (g_first_normal_packet) {

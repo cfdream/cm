@@ -13,7 +13,7 @@ void* send_target_flows_to_controller(void* param) {
     flow_key_t flow_key;
     sampled_flow_map_t* p_sampled_flow_map = NULL;
 
-    DEBUG("start send_target_flows_to_controller");
+    NOTICE("start send_target_flows_to_controller");
     /*init the socket*/
     init_socket_client();
 
@@ -47,7 +47,7 @@ void* send_target_flows_to_controller(void* param) {
 
     /*close the socket*/
     close_socket();
-    DEBUG("end send_target_flows_to_controller");
+    NOTICE("end send_target_flows_to_controller");
     return NULL;
 }
 

@@ -17,7 +17,7 @@ const bool OPEN_LOCK = false;
 const bool OPEN_REPLACE_MECHANISM = true;
 
 //seconds in one interval
-const int INTERVAL_SECONDS = 5;
+const int INTERVAL_SECONDS = 1;
 
 
 //init every time

@@ -18,6 +18,10 @@ void check_switch_buffers(int ith_interval);
 //TODO: add this function into main(); otherwise, call this function in packet_processor.h
 void init_cm(void) {
 
+    //init global_setting, packet_sampling_setting
+    init_global_setting();
+    init_packet_sampling_setting();
+
     //init sampled_buffers and condition_buffers
     initial_buffers();
 
