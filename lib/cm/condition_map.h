@@ -42,6 +42,8 @@ condition_t get_condition_from_rest_buffer(flow_key_t flow_key);
 //put condition
 void put_condition(flow_key_t flow_key, condition_t condition);
 
+void switch_condition_buffer();
+
 //initial the mutexs in condition_flow_map
 void initial_condition_flow_map(int idx) {
     int i = 0;
@@ -93,19 +95,37 @@ condition_t get_condition(flow_key_t flow_key) {
     return condition;
 }
 //put condition of one flow
-void put_condition(flow_key_t flow_key, condition_t condition) {
-    int idx = 0;
+void put_condition_in_current_buffer(flow_key_t flow_key, condition_t condition) {
+    int flow_idx = 0;
     condition_flow_map_t* p_condition_flow_map = &condition_buffers.condition_flow_map[condition_buffers.idx];
     //lock
     request_condition_flow_map_lock(flow_key, p_condition_flow_map);
     //put data
-    idx = get_index_in_condition_flow_map(flow_key);
-    if (p_condition_flow_map->condition_flows[idx].flow_key.srcip
-        && p_condition_flow_map->condition_flows[idx].flow_key.srcip != flow_key.srcip) {
+    flow_idx = get_index_in_condition_flow_map(flow_key);
+    if (p_condition_flow_map->condition_flows[flow_idx].flow_key.srcip
+        && p_condition_flow_map->condition_flows[flow_idx].flow_key.srcip != flow_key.srcip) {
         WARNING("condition_flow_map confilt happens");
     }
-    p_condition_flow_map->condition_flows[idx].flow_key = flow_key;
-    p_condition_flow_map->condition_flows[idx].condition = condition;
+    p_condition_flow_map->condition_flows[flow_idx].flow_key = flow_key;
+    p_condition_flow_map->condition_flows[flow_idx].condition = condition;
+    //unlock
+    release_condition_flow_map_lock(flow_key, p_condition_flow_map);
+}
+
+//put condition of one flow
+void put_condition_in_rest_buffer(flow_key_t flow_key, condition_t condition) {
+    int flow_idx = 0;
+    condition_flow_map_t* p_condition_flow_map = &condition_buffers.condition_flow_map[1-condition_buffers.flow_idx];
+    //lock
+    request_condition_flow_map_lock(flow_key, p_condition_flow_map);
+    //put data
+    flow_idx = get_index_in_condition_flow_map(flow_key);
+    if (p_condition_flow_map->condition_flows[flow_idx].flow_key.srcip
+        && p_condition_flow_map->condition_flows[flow_idx].flow_key.srcip != flow_key.srcip) {
+        WARNING("condition_flow_map confilt happens");
+    }
+    p_condition_flow_map->condition_flows[flow_idx].flow_key = flow_key;
+    p_condition_flow_map->condition_flows[flow_idx].condition = condition;
     //unlock
     release_condition_flow_map_lock(flow_key, p_condition_flow_map);
 }
@@ -127,5 +147,8 @@ condition_t get_condition_from_rest_buffer(flow_key_t flow_key) {
         condition = p_condition_flow_map->condition_flows[idx].condition;
     }
     return condition;
+}
+void switch_condition_buffer() {
+    condition_buffers.idx = 1 - condition_buffers.idx;
 }
 #endif

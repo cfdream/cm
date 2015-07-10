@@ -142,6 +142,14 @@ void process_condition_packet(packet_t* pkt_ptr) {
     //record the condition information of the flow in condition_flow_map
     flow_key_t flow_key;
     flow_key.srcip = pkt_ptr->srcip;
+
+    if (flow_key.srcip == CONDITION_TERMINATE_FLOW_SRCIP 
+        && pkt_ptr->condition.volume == CONDITION_TERMINATE_ALL_VOLUME) {
+        //the target flows are transfered completedly, 
+        //it is time to switch the condition_map index
+
+    }
+
     put_condition(flow_key, pkt_ptr->condition);
 }
 
