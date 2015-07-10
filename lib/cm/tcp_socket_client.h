@@ -40,7 +40,7 @@ void init_socket_client(void)
 
     //connect the server socket
     if (connect(sockfd,(struct sockaddr *) &serv_addr,sizeof(serv_addr)) < 0) {
-        ERROR("ERROR connecting, interval:%d,ip:%s, port:%d", g_current_interval, server_ip, server_port);
+        ERROR("ERROR connecting");
         exit(0);
     }
 
