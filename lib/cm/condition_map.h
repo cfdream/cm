@@ -95,7 +95,7 @@ condition_t get_condition(flow_key_t flow_key) {
     return condition;
 }
 //put condition of one flow
-void put_condition_in_current_buffer(flow_key_t flow_key, condition_t condition) {
+void put_condition(flow_key_t flow_key, condition_t condition) {
     int flow_idx = 0;
     condition_flow_map_t* p_condition_flow_map = &condition_buffers.condition_flow_map[condition_buffers.idx];
     //lock
@@ -115,7 +115,7 @@ void put_condition_in_current_buffer(flow_key_t flow_key, condition_t condition)
 //put condition of one flow
 void put_condition_in_rest_buffer(flow_key_t flow_key, condition_t condition) {
     int flow_idx = 0;
-    condition_flow_map_t* p_condition_flow_map = &condition_buffers.condition_flow_map[1-condition_buffers.flow_idx];
+    condition_flow_map_t* p_condition_flow_map = &condition_buffers.condition_flow_map[1-condition_buffers.idx];
     //lock
     request_condition_flow_map_lock(flow_key, p_condition_flow_map);
     //put data
